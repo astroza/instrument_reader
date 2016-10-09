@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Instrument Reader</title>
+    <link rel="stylesheet" href="app.css">
+    <link href="external/css/bootstrap.min.css" rel="stylesheet">
+    <script src="external/js/jquery.min.js"></script>
+    <script src="external/js/jquery-dateFormat.min.js"></script>
+    <script src="external/js/bootstrap.min.js"></script>
+    <script src="database.js"></script>
+    <script src="app.js"></script>
+  </head>
+
+  <body>
+    <button type="button" class="stage0 btn btn-primary" onclick="scan_devices()">Scan devices</button>
+    <button type="button" class="stage1 btn btn-primary" onclick="disconnect_device()">Disconnect device</button>
+    <hr class="stage0">
+    <div class="stage0 form-group">
+        <label class="col-sm-2 control-label">Take sample every (seconds)</label>
+        <select id="sample_time" class="form-control">
+          <option>1</option>
+          <option>4</option>
+          <option>8</option>
+          <option>16</option>
+          <option>30</option>
+          <option>60</option>
+          <option>300</option>
+          <option>600</option>
+        </select>
+    </div>
+    <hr>
+    <div class="stage0">
+      <table class="table table-hover">
+          <thead>
+              <tr>
+                  <th>Port Name</th>
+                  <th>Manufacturer</th>
+                  <th>VendorId</th>
+                  <th>ProductId</th>
+              </tr>
+          </thead>
+          <tbody id="devices_list"></tbody>
+      </table>
+    </div>
+    <div id="error_msg" class="alert alert-danger" role="alert"></div>
+    <div class="stage1">
+        <div>Log</div>
+        <textarea id="log" rows="10" cols="90" readonly></textarea>
+        <hr>
+        <h5>Export to CSV</h5>
+        <input id="export_from" type="date" />
+        <input id="csv_path" type="file" nwsaveas="samples.csv" />
+    </div>
+  </body>
+</html>
