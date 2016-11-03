@@ -95,6 +95,7 @@ function disconnect_device() {
   $(".device_btn").removeAttr("disabled");
   $(".stage1").hide();
   $(".stage0").show();
+  $("#graph1").html('');
 }
 
 function export_to_csv(path) {
