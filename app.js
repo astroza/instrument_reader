@@ -100,6 +100,7 @@ function disconnect_device() {
 
 function export_to_csv(path) {
   var fields = ['n', 'channel_0', 'channel_1', 'time'];
+  var start_time = null
   db.Sample.findAll({
     where: {
       createdAt: {
@@ -108,7 +109,12 @@ function export_to_csv(path) {
     }
   }).then(samples => {
     samples = samples.map((s,i) => {
-      s.n = i;
+      if(start_time == null) {
+        s.n = 0;
+        start_time = s.createdAt;
+      } else {
+        s.n = Math.round((s.createdAt.valueOf() - start_time.valueOf())/1000);
+      } 
       s.time = moment(s.createdAt).format("DD/MM/YYYY HH:mm:ss");
       return s;
     });
