@@ -45,7 +45,7 @@ function app_log(line) {
 }
 
 function on_serial_data(line) {
-  var values = line.split(", ");
+  var values = line.split(",");
   app_log("Channel 0: " + values[0] + ", Channel 1: " + values[1]);
   var s0 = graph_data.values[0];
   var s1 = graph_data.values[1];
