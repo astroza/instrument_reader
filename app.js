@@ -45,21 +45,22 @@ function app_log(line) {
 }
 
 function on_serial_data(line) {
-  var values = line.split(",");
-  app_log("Channel 0: " + values[0] + ", Channel 1: " + values[1]);
-  var s0 = graph_data.values[0];
-  var s1 = graph_data.values[1];
-  if(s0.length >= graph_size) {
-    s0.shift();
-    s1.shift();
-    graph_data.start += graph_data.step;
+  if(/.+,.+/.test(line)) {
+    var values = line.split(",");
+    app_log("Channel 0: " + values[0] + ", Channel 1: " + values[1]);
+    var s0 = graph_data.values[0];
+    var s1 = graph_data.values[1];
+    if(s0.length >= graph_size) {
+      s0.shift();
+      s1.shift();
+      graph_data.start += graph_data.step;
+    }
+    s0.push(parseFloat(values[0]));
+    s1.push(parseFloat(values[1]));
+    graph_data.end += graph_data.step;
+    line_graph.updateData(graph_data);
+    db.insertCurrentSample(values);
   }
-  s0.push(parseFloat(values[0]));
-  s1.push(parseFloat(values[1]));
-  graph_data.end += graph_data.step;
-  line_graph.updateData(graph_data);
-  console.log("DB");
-  db.insertCurrentSample(values);
 }
 
 function connect_device(button) {
@@ -142,7 +143,7 @@ function simulate_data() {
 
 function init_graph(step) {
   graph_data.names = ["chan 0", "chan 1"];
-  graph_data.colors = ["green","orange"];
+  graph_data.colors = ["green","blue"];
   graph_data.scale = "linear";
   graph_data.start = +new Date();
   graph_data.end = graph_data.start;
